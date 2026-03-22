@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev)",
+      "Bash(find /Users/prashanth/Downloads/b_y6vmVdvGc01-1774173861868/app -type f -name \"*.ts\" -o -name \"*.tsx\" 2>/dev/null | grep -v node_modules | sort)",
+      "Bash(git init && git add . && git commit -m \"Initial commit: Home Expense Tracker with credit/debit, import/export, threshold alerts and monthly summary email\" 2>&1)"
+    ]
+  }
+}
