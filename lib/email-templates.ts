@@ -207,14 +207,6 @@ export function buildMonthlySummaryEmail(params: {
           </table>
         </td></tr>
 
-        <!-- AI Tips -->
-        <tr><td style="padding:24px 32px 0;">
-          <h3 style="margin:0 0 12px;color:#111827;font-size:15px;">💡 AI-Powered Insights</h3>
-          <div style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 6px 6px 0;padding:16px;">
-            ${aiTipsHtml}
-          </div>
-        </td></tr>
-
         <!-- Footer -->
         <tr><td style="padding:24px 32px;margin-top:24px;">
           <div style="border-top:1px solid #f0f0f0;padding-top:16px;">

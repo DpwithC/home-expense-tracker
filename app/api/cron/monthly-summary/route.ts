@@ -1,12 +1,10 @@
 import { createClient } from "@/lib/supabase/server"
 import { NextResponse } from "next/server"
 import { Resend } from "resend"
-import Anthropic from "@anthropic-ai/sdk"
 import { buildMonthlySummaryEmail } from "@/lib/email-templates"
 import { format } from "date-fns"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 function formatINRPlain(amount: number): string {
   return new Intl.NumberFormat("en-IN", {
@@ -85,40 +83,7 @@ export async function POST(request: Request) {
     .map(([name, amount]) => ({ name, amount }))
     .sort((a, b) => b.amount - a.amount)
 
-  // Build Claude prompt
-  const categoryLines = categoryBreakdown
-    .map((c) => `  - ${c.name}: ${formatINRPlain(c.amount)}`)
-    .join("\n")
-
-  const prompt = `Analyze this household spending data for ${monthLabel}:
-
-- Total Income: ${formatINRPlain(totalIncome)}
-- Total Expenses: ${formatINRPlain(totalExpenses)}
-- Savings: ${formatINRPlain(totalSavings)}
-- Investments (Portfolio): ${formatINRPlain(totalPortfolio)}
-- Liabilities (EMIs): ${formatINRPlain(totalLiabilities)}
-- Net Position: ${formatINRPlain(netPosition)}
-
-Expense breakdown by category:
-${categoryLines || "  No expense data"}
-
-Provide 3-4 specific, actionable tips on what could have been done better this month and how to improve next month. Be concise, practical, and encouraging. Focus on the biggest spending categories.`
-
-  // Get AI tips from Claude
-  let aiTips = "No AI insights available."
-  try {
-    const message = await anthropic.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 512,
-      messages: [{ role: "user", content: prompt }],
-    })
-    const content = message.content[0]
-    if (content.type === "text") {
-      aiTips = content.text
-    }
-  } catch (err) {
-    console.error("Claude API error:", err)
-  }
+  const aiTips = ""
 
   // Get email recipient from threshold_settings
   const { data: thresholdSettings } = await supabase
